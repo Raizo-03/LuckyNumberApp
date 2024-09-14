@@ -18,7 +18,7 @@ public class SecondActivity extends AppCompatActivity {
     TextView title, luckyNumber;
     Button share;
     String username;
-
+    int randomNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +32,18 @@ public class SecondActivity extends AppCompatActivity {
         });
 
         //Receiving the value from main activity
-        Intent i = new Intent();
+        Intent i = getIntent();  // Use getIntent() to get the passed Intent
         username = i.getStringExtra("name");
+
+
 
         title = findViewById(R.id.title);
         luckyNumber = findViewById(R.id.textView3);
 
 
         //Generating Random Numbers
-        int randomNumber = generateRandomNumber();
-        luckyNumber.setText(randomNumber);
+        randomNumber = generateRandomNumber();
+        luckyNumber.setText(String.valueOf(randomNumber));
 
 
 
@@ -49,7 +51,9 @@ public class SecondActivity extends AppCompatActivity {
         share.setOnClickListener(new View.OnClickListener() {
        @Override
        public void onClick(View v) {
+           //Receiving the value from main activity
 
+           shareData(username, randomNumber);
 
             }
 
@@ -61,8 +65,8 @@ public class SecondActivity extends AppCompatActivity {
     public int generateRandomNumber(){
         Random rand = new Random();
         int upperLimit = 1000;
-        int randomNum = rand.nextInt(upperLimit);
-        return randomNum;
+        int randomnum = rand.nextInt(upperLimit);
+        return randomnum;
     }
 
     public void shareData(String username, int randomNum){
@@ -71,7 +75,7 @@ public class SecondActivity extends AppCompatActivity {
 
 
         i.putExtra(Intent.EXTRA_SUBJECT, username + "got lucky today!");
-        i.putExtra(Intent.EXTRA_SUBJECT, "His luck number is " + randomNum);
+        i.putExtra(Intent.EXTRA_TEXT, "His luck number is " + randomNum);
 
 
         startActivity(Intent.createChooser(i, "Choose an app"));
